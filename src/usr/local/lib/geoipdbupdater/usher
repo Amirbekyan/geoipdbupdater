@@ -1,0 +1,51 @@
+#!/bin/bash
+
+[ $KEY ] || errmsg key
+[ $GEOIPVER ] || errmsg ver
+
+case $GEOIPVER in
+	legacy)
+		TYPES=(GEOIP_COUNTRY GEOIP_CITY)
+		DBFILEFORMATS=("dat");;
+	geoip2)
+		TYPES=(GEOIP2_COUNTRY GEOIP2_CITY)
+		DBFILEFORMATS=("mmdb");;
+	both)
+		TYPES=(GEOIP_COUNTRY GEOIP_CITY GEOIP2_COUNTRY GEOIP2_CITY)
+		DBFILEFORMATS=("dat" "mmdb");;
+esac
+
+set_edition() {
+case $TYPE in
+	GEOIP_COUNTRY)	EDITION_ID="106";;
+	GEOIP_CITY)	EDITION_ID="133";;
+	GEOIP2_COUNTRY)	EDITION_ID="GeoIP2-Country";;
+	GEOIP2_CITY)	EDITION_ID="GeoIP2-City";;
+esac
+}
+
+for ff in ${!DBFILEFORMATS[@]}; do
+	if [ $ff -eq 0 ]; then
+		REGEX=".*\.("
+	else
+		REGEX="${REGEX}|"
+	fi
+	REGEX="${REGEX}${DBFILEFORMATS[$ff]}"
+	[ ${DBFILEFORMATS[$ff+1]} ] || REGEX="${REGEX})"
+done
+
+BINDIR=/usr/bin
+LOGDIR=/var/log
+LOGFILE=geoipdbupdater_version.log
+[ -r $LOGDIR/$LOGFILE ] || echo $(date)_INIT_$(date -d "$(date) -8 day" +%Y%m%d) > $LOGDIR/$LOGFILE
+SHAREDIR=/usr/share/geoipdbupdater
+[ -d $SHAREDIR ] || mkdir -p $SHAREDIR
+
+FILES_DOWNLOADED=0
+DATE=$(date +%Y%m%d)
+PREV_VERSION=$(tail -n 1 $LOGDIR/$LOGFILE | awk -F _ {'print $3'})
+NEW_VERSION=$(date -d "$PREV_VERSION 1 day" +%Y%m%d)
+
+set_url() {
+	URL="https://download.maxmind.com/app/geoip_download?edition_id=${EDITION_ID}&date=${VERSION}&suffix=tar.gz&license_key=${KEY}"
+}
