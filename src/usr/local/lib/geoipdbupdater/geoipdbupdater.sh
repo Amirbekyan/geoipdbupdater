@@ -1,7 +1,5 @@
 #!/bin/bash
 #
-# Requires /root/maxmind directory and /root/maxmind/geoipdbupdater_version.log
-# log first entry "echo $(date)_INIT_$(date -d "$(date) -1 day" +%Y%m%d) > $LOGDIR/geoipdbupdater_version.log"
 # Error Codes
 # 4	No files downloaded
 # 3	Component not found

@@ -37,13 +37,13 @@ done
 BINDIR=/usr/bin
 LOGDIR=/var/log
 LOGFILE=geoipdbupdater_version.log
-[ -r $LOGDIR/$LOGFILE ] || echo $(date)_INIT_$(date -d "$(date) -8 day" +%Y%m%d) > $LOGDIR/$LOGFILE
+[ -r $LOGDIR/$LOGFILE ] || echo $(date)_INIT_LOG_$(date -d "$(date) -8 day" +%Y%m%d) > $LOGDIR/$LOGFILE
 SHAREDIR=/usr/share/geoipdbupdater
 [ -d $SHAREDIR ] || mkdir -p $SHAREDIR
 
 FILES_DOWNLOADED=0
 DATE=$(date +%Y%m%d)
-PREV_VERSION=$(tail -n 1 $LOGDIR/$LOGFILE | awk -F _ {'print $3'})
+PREV_VERSION=$(tail -n 1 $LOGDIR/$LOGFILE | awk -F _ {'print $4'})
 NEW_VERSION=$(date -d "$PREV_VERSION 1 day" +%Y%m%d)
 
 set_url() {
