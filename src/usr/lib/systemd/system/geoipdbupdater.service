@@ -1,0 +1,13 @@
+[Unit]
+Description=GeoIP database updater
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/geoipdbupdater
+RemainAfterExit=true
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

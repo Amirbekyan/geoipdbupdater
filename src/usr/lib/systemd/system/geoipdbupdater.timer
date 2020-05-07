@@ -1,0 +1,9 @@
+[Unit]
+Description=GeoIP database updater timer
+
+[Timer]
+OnCalendar=*-*-* 01:47
+Persistent=true
+
+[Install]
+WantedBy=timers.target
