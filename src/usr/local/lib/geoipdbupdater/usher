@@ -40,6 +40,7 @@ LOGFILE=geoipdbupdater_version.log
 [ -r $LOGDIR/$LOGFILE ] || echo $(date)_INIT_LOG_$(date -d "-8 day" +%Y%m%d) > $LOGDIR/$LOGFILE
 SHAREDIR=/usr/share/geoipdbupdater
 [ -d $SHAREDIR ] || mkdir -p $SHAREDIR
+[ -d /usr/share/GeoIP ] || mkdir -p /usr/share/GeoIP
 
 FILES_DOWNLOADED=0
 DATE=$(date +%Y%m%d)

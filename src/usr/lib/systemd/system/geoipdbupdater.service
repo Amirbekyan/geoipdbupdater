@@ -5,7 +5,7 @@ After=network.target
 [Service]
 Type=oneshot
 ExecStart=/usr/local/bin/geoipdbupdater
-RemainAfterExit=true
+RemainAfterExit=false
 StandardOutput=journal
 StandardError=journal
 

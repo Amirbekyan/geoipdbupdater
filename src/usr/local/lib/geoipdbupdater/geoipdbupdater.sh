@@ -16,7 +16,7 @@ errmsg() {
 		ver)	echo "No GEOIPVER set in /etc/geoipdbupdater.conf!"
 			exit 2;;
 		nofile)	echo "No files downloaded!"
-			exit 4;;
+			exit 0;;
 	esac
 }
 
@@ -62,7 +62,7 @@ if [ $FILES_DOWNLOADED -gt 0 ]; then
 		esac
 	done
 
-	find $SHAREDIR/ -not -name "GeoIPCity.dat" -not -name "GeoIP.dat" -not -name "GeoIP2-Country.mmdb" -not -name "GeoIP2-City.mmdb" -not -path "$SHAREDIR/" -exec rm -rf {} \;
+	find $SHAREDIR/ -maxdepth 1 -not -name "GeoIPCity.dat" -not -name "GeoIP.dat" -not -name "GeoIP2-Country.mmdb" -not -name "GeoIP2-City.mmdb" -not -path "$SHAREDIR/" -exec rm -rf {} \;
 	
 	chown -R root:root $SHAREDIR
 
@@ -77,4 +77,4 @@ fi
 }
 
 file_downloader
-file_manager
+file_manager && exit 0
